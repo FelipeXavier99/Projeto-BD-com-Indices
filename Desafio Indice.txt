@@ -1,0 +1,100 @@
+
+
+--CREATE INDEX index_ativo_hash ON cliente2(cpf) USING HASH; -- mysql n roda tem q incluir ENGINE=MEMORY após a tabela
+ 
+ -- active boolean not null DEFAULT true  - botar em uma tabela
+ -- fazer um procedure
+
+
+indice 1
+ALTER TABLE employee add index indice_cpf(cpf)
+create table employee(
+  id_employee int PRIMARY key,
+  fname varchar,
+  cpf int,
+  id_employee_departament int,
+  sex char(2),
+  salary double
+  )
+   
+   
+  create table departament(
+    id_departament int PRIMARYkey,
+    dname varchar,
+    dnumber int,
+    mgr_ssn varchar,
+    mgr_date date,
+    id_departament_Employer intm
+    id_departaments_locations int,
+    CONSTRAINT fk_departament_Employer FOREIGN key(departament_Employer) REFERENCES employee(  id_departament_Employer)
+   
+  )
+  --indice 2
+  CREATE INDEX index_ativo_hash ON departament(dnumber) USING HASH
+  
+create table dep_locations(
+  id_dep_location int PRIMARY key,
+  dnumber int PRIMARYkey,
+  dlocation int,
+  CONSTRAINT fk_dep_location_departament FOREIGN key( dlocation) REFERENCES departament(id_departaments_locations)
+
+)
+
+create table project(
+  id_project int PRIMARY key,
+  pname varchar,
+  pnumber int,
+  plocation varchar,
+  dnum int
+)
+
+create table works_on (
+  essn int primary KEY,
+  pno varchar,
+  hours int
+)
+
+
+create table dependent (
+  essn int PRIMARY key,
+  dependent_name varchar,
+  sex char(2),
+  bdate date
+)
+-- procedure se é o empregado é de mario
+delimiter\\
+CREATE procedure employer_de_Maior(
+  int idade,
+  )
+  BEGIN
+if(length(cpf)>11 and idade>17) THEN
+  when "é de maior"
+  --selet from user;
+ ELSE
+  when "Erro digitar CPF!";
+  else if;
+end;
+delimiter;
+
+
+--Qual o departamento com maior número de pessoas? 
+
+SELECT max( id_departament_Employer),dname from departament d
+inner JOIN employee e ON e. id_employee_departament = d.id_departament_Employer
+GROUP by id_departament
+
+--Quais são os departamentos por cidade? 
+
+SELECT*from departament d 
+INNER join  dep_locations c ON d.id_departaments_locations = c.dlocation
+GROUP by id_departament
+
+--Relação de empregrados por departamento 
+
+SELECT e. fname AS "Empregado",d.dname as "departamento" from departament d
+inner JOIN employee e ON e. id_employee_departament = d.id_departament_Employer 
+
+
+
+
+
